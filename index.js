@@ -1,6 +1,11 @@
 import Fastify from 'fastify';
 import { Sequelize, DataTypes } from 'sequelize';
 import cors from '@fastify/cors';
+import dotenv from 'dotenv';
+
+
+
+dotenv.config();
 
 const app = Fastify({ logger: true });
 
@@ -9,22 +14,15 @@ await app.register(cors, {
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
 });
 
-const sequelize = new Sequelize(
-  'postgres',       
-  'postgres',       
-  '12345678',
-  {
-    host: 'db.wtiampzsiqwrbblrbkiq.supabase.co',
-    port: 5432,
-    dialect: 'postgres',
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false
-      }
-    }
-  }
-);
+const sequelize = new Sequelize(process.env.DB_URL, {
+  dialect: 'postgres',
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
+  },
+});
 
 
 
